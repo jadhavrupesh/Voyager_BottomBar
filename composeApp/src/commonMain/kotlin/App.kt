@@ -14,7 +14,7 @@ fun App() {
     MaterialTheme(
         colorScheme = colorScheme
     ) {
-        Navigator(screen = BaseApp()) { navigator ->
+        Navigator(screen = BaseApp(1)) { navigator ->
             SlideTransition(navigator = navigator)
         }
     }
