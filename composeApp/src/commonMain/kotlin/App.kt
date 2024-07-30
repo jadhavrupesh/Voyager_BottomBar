@@ -15,7 +15,10 @@ import utils.PlantShopColorSchema
 @Preview
 fun App() {
     MaterialTheme(
-        colorScheme = PinkSoftColorSchema().pinkSoftColorScheme
+//        colorScheme = PinkSoftColorSchema().pinkSoftColorScheme
+//        colorScheme = PlantShopColorSchema().planterShopColorScheme
+//        colorScheme = OrangeColorSchema().orangeColorSchema
+        colorScheme = DeepRedColorSchema().deepRedColorScheme
     ) {
         Navigator(screen = BaseApp(0)) { navigator ->
             SlideTransition(navigator = navigator)
