@@ -5,15 +5,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.NavigationBar
@@ -25,20 +19,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import bottombarexperimen.composeapp.generated.resources.Res
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabDisposable
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import ui.component.BottomNavigationItem
 import ui.home.HomeTab
 import ui.prodiuctList.ProductListTab
-import ui.product_details.ProductDetails
 import ui.profile.ProfileTab
 
-class BaseApp(val tabIndex: Int) : Screen {
+
+class BaseApp(private val tabIndex: Int) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -68,23 +59,31 @@ class BaseApp(val tabIndex: Int) : Screen {
 
         var selectedItemIndex by remember { mutableStateOf(tabIndex) }
 
+        val initialTab = when (tabIndex) {
+            0 -> HomeTab
+            1 -> ProductListTab
+            else -> ProfileTab
+        }
+
         TabNavigator(
-            HomeTab,
+            initialTab,
             tabDisposable = {
                 TabDisposable(
                     navigator = it,
                     tabs = listOf(HomeTab, ProductListTab, ProfileTab)
                 )
             },
-
-            ) { tabNavigator ->
+        ) { tabNavigator ->
+            println("Initial Tab value is ${initialTab} and tabNavigator index is ${tabNavigator.current.options.index} ")
             Scaffold(
                 topBar = {
                     TopAppBar(title = { Text(text = tabNavigator.current.options.title) })
-                }, content = {
+                },
+                content = {
                     CurrentTab()
-                }, bottomBar = {
-                    NavigationBar() {
+                },
+                bottomBar = {
+                    NavigationBar {
                         items.forEachIndexed { index, item ->
                             NavigationBarItem(
                                 selected = selectedItemIndex == index,
@@ -105,33 +104,7 @@ class BaseApp(val tabIndex: Int) : Screen {
                                     )
                                 }
                             )
-
                         }
-
-
-//                        NavigationBarItem(
-//                            selected = tabNavigator.current.key == HomeTab.key,
-//                            onClick = { tabNavigator.current = HomeTab },
-//                            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-//                            label = { Text("Home") }
-//                        )
-//                        NavigationBarItem(
-//                            selected = tabNavigator.current.key == ProductListTab.key,
-//                            onClick = { tabNavigator.current = ProductListTab },
-//                            icon = {
-//                                Icon(
-//                                    Icons.Filled.ShoppingCart,
-//                                    contentDescription = "ProductList"
-//                                )
-//                            },
-//                            label = { Text("ProductList") }
-//                        )
-//                        NavigationBarItem(
-//                            selected = tabNavigator.current.key == ProfileTab.key,
-//                            onClick = { tabNavigator.current = ProfileTab },
-//                            icon = { Icon(Icons.Filled.Person, contentDescription = "Profile") },
-//                            label = { Text("Profile") }
-//                        )
                     }
                 }
             )

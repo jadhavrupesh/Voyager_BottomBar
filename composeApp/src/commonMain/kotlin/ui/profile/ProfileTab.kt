@@ -54,7 +54,7 @@ object ProfileTab : Tab {
 
             return remember {
                 TabOptions(
-                    index = 0u, title = title, icon = icon
+                    index = 3u, title = title, icon = icon
                 )
             }
         }

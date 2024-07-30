@@ -55,7 +55,7 @@ object ProductListTab : Tab {
 
             return remember {
                 TabOptions(
-                    index = 0u, title = title, icon = icon
+                    index = 1u, title = title, icon = icon
                 )
             }
         }
