@@ -12,7 +12,12 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabDisposable
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -20,22 +25,31 @@ import ui.home.HomeTab
 import ui.prodiuctList.ProductListTab
 import ui.product_details.ProductDetails
 import ui.profile.ProfileTab
+import kotlin.random.Random
 
 class BaseApp(val tabIndex: Int) : Screen {
+
+
+    override val key: ScreenKey =
+        super.key + "${Random.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE)}"
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val initialTab = when (tabIndex) {
+            0 -> HomeTab
+            1 -> ProductListTab
+            else -> ProfileTab
+        }
         TabNavigator(
-            HomeTab,
+            initialTab,
             tabDisposable = {
                 TabDisposable(
                     navigator = it,
                     tabs = listOf(HomeTab, ProductListTab, ProfileTab)
                 )
-            },
-
-            ) { tabNavigator ->
+            }, disposeNestedNavigators = false
+        ) { tabNavigator ->
             Scaffold(
                 topBar = {
                     TopAppBar(title = { Text(text = tabNavigator.current.options.title) })

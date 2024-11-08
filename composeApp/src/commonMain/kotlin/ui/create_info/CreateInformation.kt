@@ -47,7 +47,7 @@ class CreateInformation : Screen {
                         }
 
                         Button(onClick = {
-                            navController.replaceAll(BaseApp())
+                            navController.replaceAll(BaseApp(0))
                         }) {
                             Text("Go to Profile")
                         }

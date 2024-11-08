@@ -21,8 +21,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import ui.base_app.BaseApp
 import ui.create_info.CreateInformation
 import ui.information.Information
+import ui.prodiuctList.ProductListView
+import utils.replaceAllToScreen
 
 class HomeView(private val baseNavController: Navigator) : Screen {
 
@@ -49,6 +52,12 @@ class HomeView(private val baseNavController: Navigator) : Screen {
                             baseNavController.parent?.push(CreateInformation())
                         }) {
                             Text("Go to Create Info")
+                        }
+
+                        Button(onClick = {
+                            replaceAllToScreen(navController, BaseApp(1))
+                        }) {
+                            Text("Go to ProductList")
                         }
                     }
                 }
